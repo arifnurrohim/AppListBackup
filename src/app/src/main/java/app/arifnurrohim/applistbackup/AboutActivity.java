@@ -48,6 +48,10 @@ public class AboutActivity extends Activity {
         openUrl("https://github.com/google/material-design-icons");
     }
 
+    public void onRepositoryClick(View v) {
+        openUrl("https://github.com/arifnurrohim/AppListBackup");
+    }
+
     @Override // android.app.Activity
     protected void onResume() {
         super.onResume();

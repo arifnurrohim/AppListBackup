@@ -90,4 +90,5 @@
     <string name="version">Version</string>
     <string name="version_name">2.0.4</string>
     <string name="about_material_label">Icons · Google Material Design Icons</string>
+    <string name="about_repo_label">GitHub repository</string>
 </resources>

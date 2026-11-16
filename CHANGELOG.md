@@ -10,6 +10,7 @@ All notable changes to this project are documented here.
 - "System apps" checkbox to filter system apps in both screens.
 - Long-press an app to copy its package name in both screens.
 - Backup XML files now record whether each app is a system app.
+- Added a GitHub repository link to the About screen.
 
 ### Changed
 

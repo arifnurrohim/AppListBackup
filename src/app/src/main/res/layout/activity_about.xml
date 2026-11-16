@@ -88,6 +88,21 @@
                         android:tint="?attr/colorOverlay1"
                         style="@style/AboutExternalIcon"/>
                 </LinearLayout>
+                <LinearLayout
+                    android:onClick="onRepositoryClick"
+                    style="@style/AboutLinkRow">
+                    <ImageView
+                        android:src="@drawable/ic_material_link"
+                        android:tint="?attr/colorBlue"
+                        style="@style/AboutLinkIcon"/>
+                    <TextView
+                        android:text="@string/about_repo_label"
+                        style="@style/AboutLinkLabel"/>
+                    <ImageView
+                        android:src="@drawable/ic_open_in_new"
+                        android:tint="?attr/colorOverlay1"
+                        style="@style/AboutExternalIcon"/>
+                </LinearLayout>
             </LinearLayout>
             <TextView
                 android:text="@string/about_section_credits"
