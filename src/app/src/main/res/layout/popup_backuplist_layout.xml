@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_popup"
+    android:padding="6dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:elevation="8dp">
+    <ImageButton
+        android:id="@+id/detail"
+        android:src="@drawable/ic_material_view"
+        android:tint="?attr/colorBlue"
+        android:contentDescription="@string/view"
+        style="@style/PopupButton"/>
+    <ImageButton
+        android:id="@+id/send"
+        android:src="@drawable/ic_material_send"
+        android:tint="?attr/colorGreen"
+        android:contentDescription="@string/send"
+        style="@style/PopupButton"/>
+    <ImageButton
+        android:id="@+id/delete"
+        android:src="@drawable/ic_material_delete"
+        android:tint="?attr/colorRed"
+        android:contentDescription="@string/delete"
+        style="@style/PopupButton"/>
+</LinearLayout>

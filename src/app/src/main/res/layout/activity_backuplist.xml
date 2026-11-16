@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/main_layout"
+    android:background="?attr/colorBase"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout style="@style/TitleBar">
+        <ImageButton
+            android:src="@drawable/ic_material_home"
+            android:tint="?attr/colorSubtext0"
+            android:onClick="onHomeClick"
+            android:contentDescription="@string/description_home"
+            style="@style/TitleBarAction"/>
+        <TextView style="@style/TitleBarText"/>
+        <ImageButton
+            android:src="@drawable/ic_material_refresh"
+            android:tint="?attr/colorSubtext0"
+            android:onClick="onReloadClick"
+            android:contentDescription="@string/refresh"
+            style="@style/TitleBarAction"/>
+    </LinearLayout>
+    <ListView
+        android:id="@android:id/list"
+        android:paddingLeft="8dp"
+        android:paddingTop="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="8dp"
+        android:scrollbars="none"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:listSelector="@android:color/transparent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_weight="1"/>
+    <TextView
+        android:id="@android:id/empty"
+        android:text="@string/no_backups"
+        style="@style/EmptyText"/>
+</LinearLayout>

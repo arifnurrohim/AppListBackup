@@ -1,0 +1,63 @@
+plugins {
+    id 'com.android.application'
+}
+
+def appVersionName = project.findProperty("versionName") ?: "2.0.3"
+def appVersionCode = (project.findProperty("versionCode") ?: "20003").toInteger()
+def releaseKeystore = System.getenv("KEYSTORE")
+
+android {
+	namespace "app.arifnurrohim.applistbackup"
+    compileSdkVersion 34
+    buildToolsVersion "35.0.0"
+
+    defaultConfig {
+        applicationId 'app.arifnurrohim.applistbackup'
+        minSdkVersion 21
+        //noinspection ExpiringTargetSdkVersion,ExpiredTargetSdkVersion
+        targetSdkVersion 34
+        versionCode appVersionCode
+        versionName appVersionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            if (releaseKeystore) {
+                storeFile file(releaseKeystore)
+                storePassword System.getenv("STORE_PASS")
+                keyAlias System.getenv("KEY_ALIAS") ?: "apps"
+                keyPassword System.getenv("KEY_PASS") ?: System.getenv("STORE_PASS")
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (releaseKeystore) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+
+    buildFeatures {
+        buildConfig = false
+    }
+}
+
+dependencies {
+    // TODO: dependencies
+}

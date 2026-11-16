@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_popup"
+    android:padding="6dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:elevation="8dp">
+    <ImageButton
+        android:id="@+id/ascending"
+        android:src="@drawable/ic_popup_sort_asc"
+        android:tint="?attr/colorSubtext0"
+        android:contentDescription="@string/name_asc"
+        style="@style/PopupButton"/>
+    <ImageButton
+        android:id="@+id/descending"
+        android:src="@drawable/ic_popup_sort_desc"
+        android:tint="?attr/colorSubtext0"
+        android:contentDescription="@string/name_desc"
+        style="@style/PopupButton"/>
+</LinearLayout>

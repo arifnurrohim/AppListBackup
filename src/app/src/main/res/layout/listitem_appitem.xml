@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:background="@drawable/bg_card_item_selector"
+        style="@style/ListItemCard">
+        <ImageView
+            android:id="@+id/imgIcon"
+            style="@style/ListItemIcon"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/textName"
+                android:text="App Title"
+                style="@style/ListItemTitle"/>
+            <TextView
+                android:id="@+id/textDate"
+                android:text="Package Installation Date"
+                style="@style/ListItemSubtitle"/>
+        </LinearLayout>
+        <CheckBox
+            android:id="@+id/chkItem"
+            style="@style/ListItemCheck"/>
+    </LinearLayout>
+</FrameLayout>

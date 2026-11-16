@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:installLocation="auto"
+    package="app.arifnurrohim.applistbackup">
+    <uses-sdk
+        android:minSdkVersion="21"
+        android:targetSdkVersion="34"/>
+    <application
+        android:label="@string/app_name"
+        android:icon="@drawable/icon"
+        android:name="app.arifnurrohim.applistbackup.AppListBackupApp"
+        android:forceDarkAllowed="false"
+        android:requestLegacyExternalStorage="true">
+        <activity
+            android:theme="@style/Theme"
+            android:label="@string/app_name"
+            android:name="DashboardActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/Theme"
+            android:label="@string/backup"
+            android:name="app.arifnurrohim.applistbackup.BackupActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme"
+            android:label="@string/view"
+            android:name="BackupListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme"
+            android:label="@string/view_list"
+            android:name="ViewListActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:mimeType="text/xml"/>
+                <data android:mimeType="application/xml"/>
+                <data android:pathPattern=".*\\.xml"/>
+                <data android:host="*"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:theme="@style/SettingsTheme"
+            android:label="@string/preferences"
+            android:name="app.arifnurrohim.applistbackup.SettingsActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:theme="@style/Theme"
+            android:label="@string/about"
+            android:name="app.arifnurrohim.applistbackup.AboutActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+    </application>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES"/>
+</manifest>

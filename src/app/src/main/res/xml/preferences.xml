@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/storage">
+        <EditTextPreference
+            android:icon="@drawable/ic_folder"
+            android:title="@string/backup_directory"
+            android:key="PREF_KEY_BACKUP_DIR"
+            android:defaultValue="/storage/emulated/0/Documents/AppList Backup"
+            android:dialogTitle="@string/backup_directory"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/sort">
+        <ListPreference
+            android:icon="@drawable/ic_sort"
+            android:entries="@array/app_sort_type_category"
+            android:title="@string/default_sort_type"
+            android:key="PREF_KEY_DEFAULT_SORT_TYPE"
+            android:summary="@string/set_default_sort_type"
+            android:defaultValue="0"
+            android:dialogTitle="@string/select_sort_type"
+            android:entryValues="@array/app_sort_type_value"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/backup">
+        <CheckBoxPreference
+            android:icon="@drawable/ic_apps"
+            android:title="@string/show_system_apps"
+            android:key="PREF_KEY_SHOW_SYSTEM_APPS"
+            android:summary="@string/show_system_apps_summary"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/appearance">
+        <ListPreference
+            android:icon="@drawable/ic_palette"
+            android:entries="@array/flavor_names"
+            android:title="@string/theme"
+            android:key="PREF_KEY_THEME_FLAVOR"
+            android:defaultValue="mocha"
+            android:dialogTitle="@string/select_theme"
+            android:entryValues="@array/flavor_values"/>
+        <ListPreference
+            android:entries="@array/accent_names"
+            android:title="@string/accent"
+            android:key="PREF_KEY_THEME_ACCENT"
+            android:defaultValue="mauve"
+            android:dialogTitle="@string/select_accent"
+            android:entryValues="@array/accent_values"/>
+    </PreferenceCategory>
+</PreferenceScreen>

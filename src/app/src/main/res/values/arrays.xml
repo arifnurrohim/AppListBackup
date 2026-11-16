@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="app_sort_type_category">
+        <item>@string/name_asc</item>
+        <item>@string/name_desc</item>
+        <item>@string/date_asc</item>
+        <item>@string/date_desc</item>
+    </array>
+    <array name="app_sort_type_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </array>
+    <array name="filter_type_category">
+        <item>@string/all</item>
+        <item>@string/installed</item>
+        <item>@string/not_installed</item>
+    </array>
+    <array name="accent_names">
+        <item>Rosewater</item>
+        <item>Flamingo</item>
+        <item>Pink</item>
+        <item>Mauve</item>
+        <item>Red</item>
+        <item>Maroon</item>
+        <item>Peach</item>
+        <item>Yellow</item>
+        <item>Green</item>
+        <item>Teal</item>
+        <item>Sky</item>
+        <item>Sapphire</item>
+        <item>Blue</item>
+        <item>Lavender</item>
+    </array>
+    <array name="accent_values">
+        <item>rosewater</item>
+        <item>flamingo</item>
+        <item>pink</item>
+        <item>mauve</item>
+        <item>red</item>
+        <item>maroon</item>
+        <item>peach</item>
+        <item>yellow</item>
+        <item>green</item>
+        <item>teal</item>
+        <item>sky</item>
+        <item>sapphire</item>
+        <item>blue</item>
+        <item>lavender</item>
+    </array>
+    <array name="flavor_names">
+        <item>Latte</item>
+        <item>Frappe</item>
+        <item>Macchiato</item>
+        <item>Mocha</item>
+    </array>
+    <array name="flavor_values">
+        <item>latte</item>
+        <item>frappe</item>
+        <item>macchiato</item>
+        <item>mocha</item>
+    </array>
+</resources>

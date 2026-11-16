@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="backgroundColor" format="color">
+    </attr>
+    <attr name="primaryTextColor" format="color">
+    </attr>
+    <attr name="secondaryTextColor" format="color">
+    </attr>
+    <attr name="keywords" format="string">
+    </attr>
+    <attr name="refreshInterval" format="integer">
+    </attr>
+    <attr name="colorAccent" format="color">
+    </attr>
+    <attr name="colorBackground1" format="color">
+    </attr>
+    <attr name="colorBackground2" format="color">
+    </attr>
+    <attr name="colorBackground3" format="color">
+    </attr>
+    <attr name="colorBase" format="color">
+    </attr>
+    <attr name="colorBlue" format="color">
+    </attr>
+    <attr name="colorCard" format="color">
+    </attr>
+    <attr name="colorCardStroke" format="color">
+    </attr>
+    <attr name="colorCrust" format="color">
+    </attr>
+    <attr name="colorFlamingo" format="color">
+    </attr>
+    <attr name="colorForeground1" format="color">
+    </attr>
+    <attr name="colorForeground2" format="color">
+    </attr>
+    <attr name="colorGreen" format="color">
+    </attr>
+    <attr name="colorIconBg" format="color">
+    </attr>
+    <attr name="colorIconBgBlue" format="color">
+    </attr>
+    <attr name="colorIconBgGreen" format="color">
+    </attr>
+    <attr name="colorIconBgLavender" format="color">
+    </attr>
+    <attr name="colorIconBgMauve" format="color">
+    </attr>
+    <attr name="colorIconBgPeach" format="color">
+    </attr>
+    <attr name="colorIconBgRed" format="color">
+    </attr>
+    <attr name="colorIconBgTeal" format="color">
+    </attr>
+    <attr name="colorIconBgYellow" format="color">
+    </attr>
+    <attr name="colorLavender" format="color">
+    </attr>
+    <attr name="colorMantle" format="color">
+    </attr>
+    <attr name="colorMaroon" format="color">
+    </attr>
+    <attr name="colorMauve" format="color">
+    </attr>
+    <attr name="colorOnAccent" format="color">
+    </attr>
+    <attr name="colorOverlay0" format="color">
+    </attr>
+    <attr name="colorOverlay1" format="color">
+    </attr>
+    <attr name="colorOverlay2" format="color">
+    </attr>
+    <attr name="colorPeach" format="color">
+    </attr>
+    <attr name="colorPillBlue" format="color">
+    </attr>
+    <attr name="colorPillGreen" format="color">
+    </attr>
+    <attr name="colorPillRed" format="color">
+    </attr>
+    <attr name="colorPink" format="color">
+    </attr>
+    <attr name="colorRed" format="color">
+    </attr>
+    <attr name="colorRipple" format="color">
+    </attr>
+    <attr name="colorRosewater" format="color">
+    </attr>
+    <attr name="colorSapphire" format="color">
+    </attr>
+    <attr name="colorSelection" format="color">
+    </attr>
+    <attr name="colorSky" format="color">
+    </attr>
+    <attr name="colorSubtext0" format="color">
+    </attr>
+    <attr name="colorSubtext1" format="color">
+    </attr>
+    <attr name="colorSubtitleBackground" format="color">
+    </attr>
+    <attr name="colorSurface0" format="color">
+    </attr>
+    <attr name="colorSurface1" format="color">
+    </attr>
+    <attr name="colorSurface2" format="color">
+    </attr>
+    <attr name="colorTeal" format="color">
+    </attr>
+    <attr name="colorText" format="color">
+    </attr>
+    <attr name="colorTitleBackground" format="color">
+    </attr>
+    <attr name="colorTitleSeparator" format="color">
+    </attr>
+    <attr name="colorTitleText" format="color">
+    </attr>
+    <attr name="colorTitleTextAlt" format="color">
+    </attr>
+    <attr name="colorYellow" format="color">
+    </attr>
+</resources>

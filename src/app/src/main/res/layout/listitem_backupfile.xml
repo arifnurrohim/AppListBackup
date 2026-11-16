@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:background="@drawable/bg_card_item_selector"
+        style="@style/ListItemCard">
+        <ImageView
+            android:background="@drawable/bg_icon_blue"
+            android:padding="10dp"
+            android:src="@drawable/ic_material_save"
+            android:tint="?attr/colorBlue"
+            style="@style/ListItemIcon"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/textName"
+                android:text="Backup name"
+                style="@style/ListItemTitle"/>
+            <TextView
+                android:id="@+id/textDate"
+                android:text="Creation date"
+                style="@style/ListItemSubtitle"/>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
