@@ -2,6 +2,8 @@ package app.arifnurrohim.applistbackup;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -10,8 +12,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.SparseBooleanArray;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 import app.arifnurrohim.applistbackup.util.BackupItemUtil;
@@ -24,7 +30,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import net.zemna.android.app.AppItem;
 import net.zemna.android.app.AppItemComparable;
 import net.zemna.android.app.AppItemDateComparable;
@@ -40,10 +49,13 @@ public class BackupActivity extends ListActivity {
     List<PackageInfo> _pkgList = null;
     List<AppItem> _appItems = null;
     List<AppItem> _appItemsInDB = null;
+    List<AppItem> _filteredItems = new ArrayList<>();
+    final Set<String> _checkedPackages = new HashSet<>();
     AppItemAdapter _adapter = null;
     PackageLoader _packageLoader = null;
     int _sortType = 0;
     boolean _showSystemApps = false;
+    String _searchQuery = "";
 
     @Override // android.app.Activity
     protected void onResume() {
@@ -67,17 +79,134 @@ public class BackupActivity extends ListActivity {
         this._appItemsInDB = this._app.getDbItems();
         if (savedInstanceState != null) {
             restore();
+            ArrayList<String> checkedPackages = savedInstanceState.getStringArrayList("checked_packages");
+            if (checkedPackages != null) {
+                this._checkedPackages.addAll(checkedPackages);
+            }
         } else {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
             String sortType = pref.getString("PREF_KEY_DEFAULT_SORT_TYPE", "0");
             this._sortType = Integer.parseInt(sortType);
         }
         this._showSystemApps = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("PREF_KEY_SHOW_SYSTEM_APPS", false);
-        this._adapter = new AppItemAdapter(this, R.layout.listitem_appitem, this._appItems);
+        this._adapter = new AppItemAdapter(this, R.layout.listitem_appitem, this._filteredItems);
         setListAdapter(this._adapter);
         getListView().setItemsCanFocus(false);
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() { // from class: app.arifnurrohim.applistbackup.BackupActivity.6
+            @Override // android.widget.AdapterView.OnItemLongClickListener
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AppItem item = BackupActivity.this._adapter.getItem(position);
+                if (item == null) {
+                    return false;
+                }
+                BackupActivity.this.copyPackageName(item.getPackageName());
+                return true;
+            }
+        });
+        setupFilterBar();
+        applyFilters();
         this._packageLoader = new PackageLoader(this, null);
         this._packageLoader.execute(this._appItems);
+    }
+
+    private void setupFilterBar() {
+        EditText search = (EditText) findViewById(R.id.search_apps);
+        search.addTextChangedListener(new TextWatcher() { // from class: app.arifnurrohim.applistbackup.BackupActivity.7
+            @Override // android.text.TextWatcher
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override // android.text.TextWatcher
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override // android.text.TextWatcher
+            public void afterTextChanged(Editable s) {
+                BackupActivity.this._searchQuery = s.toString();
+                BackupActivity.this.applyFilters();
+            }
+        });
+        CheckBox showSystem = (CheckBox) findViewById(R.id.chk_show_system);
+        showSystem.setChecked(this._showSystemApps);
+        showSystem.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() { // from class: app.arifnurrohim.applistbackup.BackupActivity.8
+            @Override // android.widget.CompoundButton.OnCheckedChangeListener
+            public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
+                if (isChecked != BackupActivity.this._showSystemApps) {
+                    PreferenceManager.getDefaultSharedPreferences(BackupActivity.this).edit().putBoolean("PREF_KEY_SHOW_SYSTEM_APPS", isChecked).apply();
+                    BackupActivity.this.recreate();
+                }
+            }
+        });
+    }
+
+    private void applyFilters() {
+        String query = this._searchQuery.trim().toLowerCase(Locale.US);
+        this._filteredItems.clear();
+        for (AppItem item : this._appItems) {
+            if (!this._showSystemApps && item.isSystem()) {
+                continue;
+            }
+            if (query.length() > 0) {
+                String name = item.getAppName() == null ? "" : item.getAppName().toLowerCase(Locale.US);
+                String pkg = item.getPackageName() == null ? "" : item.getPackageName().toLowerCase(Locale.US);
+                if (!name.contains(query) && !pkg.contains(query)) {
+                    continue;
+                }
+            }
+            this._filteredItems.add(item);
+        }
+        if (this._adapter == null) {
+            return;
+        }
+        this._adapter.notifyDataSetChanged();
+        restoreCheckedState();
+    }
+
+    private void restoreCheckedState() {
+        if (this._adapter == null) {
+            return;
+        }
+        getListView().clearChoices();
+        for (int i = 0; i < this._filteredItems.size(); i++) {
+            if (this._checkedPackages.contains(this._filteredItems.get(i).getPackageName())) {
+                getListView().setItemChecked(i, true);
+            }
+        }
+    }
+
+    private void copyPackageName(String packageName) {
+        if (packageName == null) {
+            return;
+        }
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        clipboard.setPrimaryClip(ClipData.newPlainText(getString(R.string.package_name), packageName));
+        Toast.makeText(this, getString(R.string.package_copied, packageName), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override // android.app.ListActivity
+    protected void onListItemClick(android.widget.ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        AppItem item = this._adapter.getItem(position);
+        if (item == null) {
+            return;
+        }
+        if (l.isItemChecked(position)) {
+            this._checkedPackages.add(item.getPackageName());
+        } else {
+            this._checkedPackages.remove(item.getPackageName());
+        }
+    }
+
+    @Override // android.app.Activity
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArrayList("checked_packages", new ArrayList<>(this._checkedPackages));
+    }
+
+    @Override // android.app.Activity
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        restoreCheckedState();
     }
 
     @Override // android.app.Activity
@@ -182,7 +311,7 @@ public class BackupActivity extends ListActivity {
         /* JADX INFO: Access modifiers changed from: protected */
         @Override // android.os.AsyncTask
         public void onProgressUpdate(Void... values) {
-            BackupActivity.this._adapter.notifyDataSetChanged();
+            BackupActivity.this.applyFilters();
             super.onProgressUpdate(values);
         }
 
@@ -247,7 +376,7 @@ public class BackupActivity extends ListActivity {
                 break;
         }
         this._sortType = sortType;
-        this._adapter.notifyDataSetChanged();
+        applyFilters();
     }
 
     public void onCheckClick(View v) {
@@ -265,9 +394,11 @@ public class BackupActivity extends ListActivity {
         ArrayList<AppItem> list = new ArrayList<>();
         for (int i = 0; i < arr.size(); i++) {
             if (arr.valueAt(i)) {
-                AppItem item = this._appItems.get(arr.keyAt(i));
-                list.add(item);
-                cnt++;
+                AppItem item = this._adapter.getItem(arr.keyAt(i));
+                if (item != null) {
+                    list.add(item);
+                    cnt++;
+                }
             }
         }
         if (cnt < 1) {
@@ -289,6 +420,14 @@ public class BackupActivity extends ListActivity {
     private void setAllItemChecked(boolean checked) {
         for (int i = 0; i < getListView().getCount(); i++) {
             getListView().setItemChecked(i, checked);
+            AppItem item = this._adapter.getItem(i);
+            if (item != null) {
+                if (checked) {
+                    this._checkedPackages.add(item.getPackageName());
+                } else {
+                    this._checkedPackages.remove(item.getPackageName());
+                }
+            }
         }
     }
 
@@ -313,6 +452,7 @@ public class BackupActivity extends ListActivity {
                     DomAppItemParser.writeXml(list, path);
                     Toast.makeText(BackupActivity.this, R.string.save_successfully, 1).show();
                     BackupActivity.this.getListView().clearChoices();
+                    BackupActivity.this._checkedPackages.clear();
                     BackupActivity.this._app.reloadBackupList();
                     BackupActivity.this.finish();
                 } catch (Exception e) {

@@ -1,6 +1,7 @@
 package app.arifnurrohim.applistbackup;
 
 import android.app.Application;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.graphics.drawable.BitmapDrawable;
 import android.preference.PreferenceManager;
@@ -55,6 +56,7 @@ public class AppListBackupApp extends Application {
                 mi.setIcon(defaultIcon);
                 String appFile = pInfo.applicationInfo.sourceDir;
                 mi.setInstallationDate(new File(appFile).lastModified());
+                mi.setSystem((pInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
                 arrayList.add(mi);
             }
         }

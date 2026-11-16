@@ -341,7 +341,7 @@ public class SettingsActivity extends Activity {
         try {
             str = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
         } catch (Exception e) {
-            str = "2.0.3";
+            str = "2.0.4";
         }
         TextView textViewText = text("Version " + str + " · " + getPackageName(), 11.5f, c("colorOverlay1"), false);
         LinearLayout.LayoutParams layoutParamsLp2 = lp(-2, -2);

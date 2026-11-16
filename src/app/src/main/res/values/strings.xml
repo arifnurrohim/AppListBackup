@@ -64,7 +64,7 @@
     <string name="about_section_app">APP</string>
     <string name="about_section_connect">CONNECT</string>
     <string name="about_section_credits">CREDITS</string>
-    <string name="about_version">Version 2.0.3 · app.arifnurrohim.applistbackup</string>
+    <string name="about_version">Version 2.0.4 · app.arifnurrohim.applistbackup</string>
     <string name="accent">Accent</string>
     <string name="appearance">Appearance</string>
     <string name="backup_directory">Backup directory</string>
@@ -81,9 +81,13 @@
     <string name="select_theme">Select theme</string>
     <string name="show_system_apps">Show system apps</string>
     <string name="show_system_apps_summary">Include system apps in the backup list</string>
+    <string name="system_apps">System apps</string>
+    <string name="search_apps">Search apps</string>
+    <string name="package_name">Package name</string>
+    <string name="package_copied">Package name copied: %1$s</string>
     <string name="storage">Storage</string>
     <string name="theme">Theme</string>
     <string name="version">Version</string>
-    <string name="version_name">2.0.3</string>
+    <string name="version_name">2.0.4</string>
     <string name="about_material_label">Icons · Google Material Design Icons</string>
 </resources>

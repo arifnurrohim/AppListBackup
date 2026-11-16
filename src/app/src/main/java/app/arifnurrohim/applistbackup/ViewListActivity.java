@@ -4,19 +4,28 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -30,6 +39,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 import net.zemna.android.app.AppItem;
 import net.zemna.android.app.AppItemComparable;
 import net.zemna.android.market.IMarketProvider;
@@ -41,9 +51,11 @@ public class ViewListActivity extends ListActivity {
     Hashtable<String, IMarketProvider> _marketProviders = null;
     AppListBackupApp _app = null;
     List<AppItem> _appItems = null;
-    List<AppItem> _filteredList = null;
+    List<AppItem> _filteredList = new ArrayList<>();
     ViewListAdapter _adapter = null;
     int _filterType = 0;
+    boolean _showSystemApps = true;
+    String _searchQuery = "";
     private ProgressDialog _progressDialog = null;
     private Handler _handler = new Handler() { // from class: app.arifnurrohim.applistbackup.ViewListActivity.1
         @Override // android.os.Handler
@@ -94,6 +106,55 @@ public class ViewListActivity extends ListActivity {
             loadBackupFile(filePath);
         }
         getListView().setItemsCanFocus(false);
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() { // from class: app.arifnurrohim.applistbackup.ViewListActivity.6
+            @Override // android.widget.AdapterView.OnItemLongClickListener
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AppItem item = ViewListActivity.this._adapter.getItem(position);
+                if (item == null) {
+                    return false;
+                }
+                ViewListActivity.this.copyPackageName(item.getPackageName());
+                return true;
+            }
+        });
+        setupFilterBar();
+    }
+
+    private void setupFilterBar() {
+        EditText search = (EditText) findViewById(R.id.search_apps);
+        search.addTextChangedListener(new TextWatcher() { // from class: app.arifnurrohim.applistbackup.ViewListActivity.7
+            @Override // android.text.TextWatcher
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override // android.text.TextWatcher
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override // android.text.TextWatcher
+            public void afterTextChanged(Editable s) {
+                ViewListActivity.this._searchQuery = s.toString();
+                ViewListActivity.this.rebuildList();
+            }
+        });
+        CheckBox showSystem = (CheckBox) findViewById(R.id.chk_show_system);
+        showSystem.setChecked(this._showSystemApps);
+        showSystem.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() { // from class: app.arifnurrohim.applistbackup.ViewListActivity.8
+            @Override // android.widget.CompoundButton.OnCheckedChangeListener
+            public void onCheckedChanged(android.widget.CompoundButton buttonView, boolean isChecked) {
+                ViewListActivity.this._showSystemApps = isChecked;
+                ViewListActivity.this.rebuildList();
+            }
+        });
+    }
+
+    private void copyPackageName(String packageName) {
+        if (packageName == null) {
+            return;
+        }
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboard.setPrimaryClip(ClipData.newPlainText(getString(R.string.package_name), packageName));
+        Toast.makeText(this, getString(R.string.package_copied, packageName), Toast.LENGTH_SHORT).show();
     }
 
     @Override // android.app.Activity
@@ -109,7 +170,10 @@ public class ViewListActivity extends ListActivity {
         if (o != null) {
             HashMap<String, Object> map = (HashMap) o;
             this._filterType = Integer.parseInt(map.get("filterType").toString());
-            this._filteredList = (List) map.get("filteredList");
+            List<AppItem> filteredList = (List) map.get("filteredList");
+            if (filteredList != null) {
+                this._filteredList = filteredList;
+            }
         }
     }
 
@@ -161,23 +225,55 @@ public class ViewListActivity extends ListActivity {
 
     /* JADX INFO: Access modifiers changed from: private */
     public void changeAppStatus() {
-        if (this._adapter != null) {
-            PackageManager pm = getPackageManager();
-            for (int i = 0; i < this._adapter.getCount(); i++) {
-                AppItem ai = this._adapter.getItem(i);
-                try {
-                    pm.getPackageInfo(ai.getPackageName(), 0);
-                    ai.setInstalled(true);
-                    if (this._filterType == 2) {
-                        this._adapter.remove(ai);
-                    }
-                } catch (PackageManager.NameNotFoundException e) {
-                    ai.setInstalled(false);
-                    if (this._filterType == 1) {
-                        this._adapter.remove(ai);
-                    }
+        updateInstalledStatus();
+        rebuildList();
+    }
+
+    private void updateInstalledStatus() {
+        if (this._appItems == null) {
+            return;
+        }
+        PackageManager pm = getPackageManager();
+        for (AppItem ai : this._appItems) {
+            try {
+                PackageInfo pi = pm.getPackageInfo(ai.getPackageName(), 0);
+                ai.setInstalled(true);
+                ai.setSystem((pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+            } catch (PackageManager.NameNotFoundException e) {
+                ai.setInstalled(false);
+            }
+        }
+    }
+
+    private void rebuildList() {
+        if (this._appItems == null) {
+            return;
+        }
+        String query = this._searchQuery.trim().toLowerCase(Locale.US);
+        this._filteredList.clear();
+        for (AppItem item : this._appItems) {
+            if (!this._showSystemApps && item.isSystem()) {
+                continue;
+            }
+            if (this._filterType == 1 && !item.isInstalled()) {
+                continue;
+            }
+            if (this._filterType == 2 && item.isInstalled()) {
+                continue;
+            }
+            if (query.length() > 0) {
+                String name = item.getAppName() == null ? "" : item.getAppName().toLowerCase(Locale.US);
+                String pkg = item.getPackageName() == null ? "" : item.getPackageName().toLowerCase(Locale.US);
+                if (!name.contains(query) && !pkg.contains(query)) {
+                    continue;
                 }
             }
+            this._filteredList.add(item);
+        }
+        if (this._adapter == null) {
+            this._adapter = new ViewListAdapter(this, R.layout.listitem_view, this._filteredList);
+            setListAdapter(this._adapter);
+        } else {
             this._adapter.notifyDataSetChanged();
         }
     }
@@ -309,28 +405,19 @@ public class ViewListActivity extends ListActivity {
             case 0:
             case 1:
                 AppItemComparable comparator = new AppItemComparable();
-                Collections.sort(this._filteredList, comparator);
+                Collections.sort(this._appItems, comparator);
                 if (sortType == 1) {
-                    Collections.reverse(this._filteredList);
+                    Collections.reverse(this._appItems);
                 }
                 break;
         }
-        this._adapter.notifyDataSetChanged();
+        rebuildList();
     }
 
     /* JADX INFO: Access modifiers changed from: private */
     public void showAppList(int filterType) {
         this._filterType = filterType;
-        this._filteredList = new ArrayList();
-        for (AppItem item : this._appItems) {
-            if (filterType != 1 || item.isInstalled()) {
-                if (filterType != 2 || !item.isInstalled()) {
-                    this._filteredList.add(item);
-                }
-            }
-        }
-        this._adapter = new ViewListAdapter(this, R.layout.listitem_view, this._filteredList);
-        setListAdapter(this._adapter);
-        changeAppStatus();
+        updateInstalledStatus();
+        rebuildList();
     }
 }

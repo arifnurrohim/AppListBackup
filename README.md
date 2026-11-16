@@ -8,6 +8,8 @@ A lightweight Android app that creates a backup list of the apps installed on yo
 - Select individual apps, select all, or select none before saving.
 - Saves the app list as an XML backup file.
 - Opens saved backups in the built-in viewer with sort and filter options.
+- Search apps by name or package in both the backup list and the viewer.
+- Filter system apps with a checkbox and long-press any app to copy its package name.
 - Shares or sends a backup file by email.
 - Catppuccin themes with selectable accent colours.
 - No network permission and no account required.
@@ -17,7 +19,7 @@ A lightweight Android app that creates a backup list of the apps installed on yo
 | | |
 |---|---|
 | Package | `app.arifnurrohim.applistbackup` |
-| Version | 2.0.3 (versionCode 20003) |
+| Version | 2.0.4 (versionCode 20004) |
 | Min SDK | 21 |
 | Target SDK | 34 |
 | Main activity | `app.arifnurrohim.applistbackup.DashboardActivity` |
@@ -59,7 +61,7 @@ The project builds with AndroidIDE (AGP 8.10.1, Gradle 9.2.1). AndroidIDE sets `
 |---|---|
 | `KEYSTORE` | Path to the keystore file |
 | `STORE_PASS` | Keystore password |
-| `KEY_ALIAS` | Key alias (defaults to `apps`) |
+| `KEY_ALIAS` | Key alias (defaults to `AppListBackup`) |
 | `KEY_PASS` | Key password (defaults to `STORE_PASS`) |
 
 The release workflow expects these repository secrets:

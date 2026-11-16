@@ -47,6 +47,8 @@ public class DomAppItemParser {
                         ai.setVersionCode(Integer.parseInt(property.getFirstChild().getNodeValue()));
                     } else if (name.equalsIgnoreCase("name")) {
                         ai.setAppName(property.getFirstChild().getNodeValue());
+                    } else if (name.equalsIgnoreCase("is_system")) {
+                        ai.setSystem(Boolean.parseBoolean(property.getFirstChild().getNodeValue()));
                     } else if (name.equalsIgnoreCase("icon")) {
                         byte[] bytes = Base64.decode(property.getFirstChild().getNodeValue(), Base64.DEFAULT);
                         ai.setIcon(new BitmapDrawable(BitmapFactory.decodeByteArray(bytes, 0, bytes.length)));
@@ -88,6 +90,9 @@ public class DomAppItemParser {
                     serializer.startTag("", "version_code");
                     serializer.text(String.valueOf(item.getVersionCode()));
                     serializer.endTag("", "version_code");
+                    serializer.startTag("", "is_system");
+                    serializer.text(item.isSystem() ? "true" : "false");
+                    serializer.endTag("", "is_system");
                     serializer.endTag("", "app");
                 }
                 serializer.endTag("", "apps");

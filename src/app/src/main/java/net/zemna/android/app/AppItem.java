@@ -24,6 +24,7 @@ public class AppItem implements Parcelable {
             Bitmap bitmap = (Bitmap) Bitmap.CREATOR.createFromParcel(source);
             item.setIcon(new BitmapDrawable(bitmap));
             item.setLoadCompleted(source.readInt() > 0);
+            item.setSystem(source.readInt() > 0);
             return item;
         }
     };
@@ -32,6 +33,7 @@ public class AppItem implements Parcelable {
     private long _installationDate;
     private boolean _isExistInDB;
     private boolean _isInstalled;
+    private boolean _isSystem;
     private boolean _isUpdated = false;
     private boolean _loadCompleted;
     private String _packageName;
@@ -110,6 +112,14 @@ public class AppItem implements Parcelable {
         this._isInstalled = installed;
     }
 
+    public boolean isSystem() {
+        return this._isSystem;
+    }
+
+    public void setSystem(boolean system) {
+        this._isSystem = system;
+    }
+
     public long getInstallationDate() {
         return this._installationDate;
     }
@@ -135,5 +145,6 @@ public class AppItem implements Parcelable {
         Bitmap bitmap = BitmapUtil.getBitmap(this._icon, this._icon.getIntrinsicWidth(), this._icon.getIntrinsicHeight());
         bitmap.writeToParcel(dest, 0);
         dest.writeInt(this._loadCompleted ? 1 : 0);
+        dest.writeInt(this._isSystem ? 1 : 0);
     }
 }

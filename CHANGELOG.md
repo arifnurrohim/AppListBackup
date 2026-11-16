@@ -2,6 +2,20 @@
 
 All notable changes to this project are documented here.
 
+## [2.0.4] - 2026-11-17
+
+### Added
+
+- Search by app name or package name in the backup app list and backup file viewer.
+- "System apps" checkbox to filter system apps in both screens.
+- Long-press an app to copy its package name in both screens.
+- Backup XML files now record whether each app is a system app.
+
+### Changed
+
+- Renamed the release signing key alias to `AppListBackup`.
+- Bumped version to 2.0.4 (versionCode 20004).
+
 ## [2.0.3] - 2026-11-17
 
 ### Changed
