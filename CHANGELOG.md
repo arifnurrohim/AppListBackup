@@ -10,7 +10,8 @@ All notable changes to this project are documented here.
 - "System apps" checkbox to filter system apps in both screens.
 - Long-press an app to copy its package name in both screens.
 - Backup XML files now record whether each app is a system app.
-- Merged the About page into Settings and added the GitHub repository link there.
+- Added Creator, email, GitHub repository, Catppuccin, Material Icons, and Material Symbols links to the About page.
+- Removed the About section from Settings.
 - Updated the dashboard About card and footer text.
 
 ### Changed

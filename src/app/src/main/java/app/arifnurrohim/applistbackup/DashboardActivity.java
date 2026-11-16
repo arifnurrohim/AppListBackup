@@ -14,7 +14,7 @@ public class DashboardActivity extends Activity {
     AppListBackupApp _app = null;
 
     public void onAboutClick(View v) {
-        startActivity(new Intent(this, (Class<?>) SettingsActivity.class));
+        startActivity(new Intent(this, (Class<?>) AboutActivity.class));
     }
 
     @Override // android.app.Activity

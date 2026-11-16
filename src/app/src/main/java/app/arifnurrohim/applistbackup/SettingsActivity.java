@@ -130,8 +130,6 @@ public class SettingsActivity extends Activity {
             }
         }));
         addCard(linearLayoutCard4);
-        section("About");
-        addCard(aboutCard());
     }
 
     private void section(String str) {
@@ -322,74 +320,6 @@ public class SettingsActivity extends Activity {
             ripple(linearLayoutHorizontal, this.p.overlay2, 10.0f, rounded(0, 10.0f));
             linearLayoutHorizontal.setOnClickListener(onClickListener);
         }
-        return linearLayoutHorizontal;
-    }
-
-    private View aboutCard() {
-        String str;
-        LinearLayout linearLayoutCard = card();
-        linearLayoutCard.setPadding(dp(16.0f), dp(16.0f), dp(16.0f), dp(12.0f));
-        LinearLayout linearLayoutHorizontal = horizontal();
-        ImageView imageView = new ImageView(this);
-        imageView.setImageDrawable(getApplicationInfo().loadIcon(getPackageManager()));
-        linearLayoutHorizontal.addView(imageView, lp(dp(46.0f), dp(46.0f)));
-        LinearLayout linearLayoutVertical = vertical();
-        LinearLayout.LayoutParams layoutParamsLp = lp(0, -2, 1.0f);
-        layoutParamsLp.leftMargin = dp(12.0f);
-        linearLayoutHorizontal.addView(linearLayoutVertical, layoutParamsLp);
-        linearLayoutVertical.addView(text("AppList Backup", 17.0f, c("colorText"), true));
-        try {
-            str = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-        } catch (Exception e) {
-            str = "2.0.4";
-        }
-        TextView textViewText = text("Version " + str + " · " + getPackageName(), 11.5f, c("colorOverlay1"), false);
-        LinearLayout.LayoutParams layoutParamsLp2 = lp(-2, -2);
-        layoutParamsLp2.topMargin = dp(3.0f);
-        linearLayoutVertical.addView(textViewText, layoutParamsLp2);
-        linearLayoutCard.addView(linearLayoutHorizontal);
-        TextView textViewText2 = text("A native app list backup tool. Back up installed apps to a simple XML file and view them later. Every surface follows the Catppuccin palette.", 12.5f, c("colorSubtext0"), false);
-        textViewText2.setLineSpacing(dp(3.0f), 1.0f);
-        LinearLayout.LayoutParams layoutParamsLp3 = lp(-1, -2);
-        layoutParamsLp3.topMargin = dp(14.0f);
-        layoutParamsLp3.bottomMargin = dp(6.0f);
-        linearLayoutCard.addView(textViewText2, layoutParamsLp3);
-        linearLayoutCard.addView(linkRow("ic_person", "Creator · arifnurrohim.my.id", "https://arifnurrohim.my.id/"));
-        linearLayoutCard.addView(linkRow("ic_email", "jobs.arifnurrohim@gmail.com", "mailto:jobs.arifnurrohim@gmail.com"));
-        linearLayoutCard.addView(linkRow("ic_material_link", "GitHub repository", "https://github.com/arifnurrohim/AppListBackup"));
-        linearLayoutCard.addView(innerDivider());
-        linearLayoutCard.addView(linkRow("ic_palette", "Catppuccin style guide", "https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md"));
-        linearLayoutCard.addView(innerDivider());
-        linearLayoutCard.addView(linkRow("ic_material_palette", "Icons · Google Material Design Icons", "https://github.com/google/material-design-icons"));
-        linearLayoutCard.addView(linkRow("ic_material_link", "Material Symbols · fonts.google.com/icons", "https://fonts.google.com/icons"));
-        TextView textViewText3 = text("Your app list stays on your own device.", 10.5f, c("colorOverlay0"), false);
-        textViewText3.setLineSpacing(dp(2.0f), 1.0f);
-        LinearLayout.LayoutParams layoutParamsLp4 = lp(-1, -2);
-        layoutParamsLp4.topMargin = dp(12.0f);
-        linearLayoutCard.addView(textViewText3, layoutParamsLp4);
-        return linearLayoutCard;
-    }
-
-    private View linkRow(String str, String str2, final String str3) {
-        LinearLayout linearLayoutHorizontal = horizontal();
-        linearLayoutHorizontal.setPadding(0, dp(12.0f), 0, dp(12.0f));
-        clickable(linearLayoutHorizontal);
-        ripple(linearLayoutHorizontal, this.p.overlay2, 10.0f, rounded(0, 10.0f));
-        linearLayoutHorizontal.addView(image(str, this.p.blue), lp(dp(22.0f), dp(22.0f)));
-        View viewText = text(str2, 13.5f, this.p.blue, false);
-        LinearLayout.LayoutParams layoutParamsLp = lp(0, -2, 1.0f);
-        layoutParamsLp.leftMargin = dp(8.0f);
-        linearLayoutHorizontal.addView(viewText, layoutParamsLp);
-        linearLayoutHorizontal.addView(image("ic_open_in_new", c("colorOverlay1")), lp(dp(18.0f), dp(18.0f)));
-        linearLayoutHorizontal.setOnClickListener(new View.OnClickListener() { // from class: app.arifnurrohim.applistbackup.SettingsActivity.8
-            @Override // android.view.View.OnClickListener
-            public void onClick(View view) {
-                try {
-                    SettingsActivity.this.startActivity(new Intent("android.intent.action.VIEW", Uri.parse(str3)));
-                } catch (Exception e) {
-                }
-            }
-        });
         return linearLayoutHorizontal;
     }
 

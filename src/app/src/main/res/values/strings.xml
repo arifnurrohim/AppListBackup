@@ -90,6 +90,7 @@
     <string name="version">Version</string>
     <string name="version_name">2.0.4</string>
     <string name="about_material_label">Icons · Google Material Design Icons</string>
+    <string name="about_material_symbols_label">Material Symbols · fonts.google.com/icons</string>
     <string name="about_repo_label">GitHub repository</string>
     <string name="app_id">app.arifnurrohim.applistbackup</string>
 </resources>

@@ -170,6 +170,7 @@
     <public type="drawable" name="ic_material_sort" id="0x7f02006c" />
     <public type="drawable" name="ic_material_view" id="0x7f02006d" />
     <public type="layout" name="activity_backup" id="0x7f030000" />
+    <public type="layout" name="activity_about" id="0x7f03000b" />
     <public type="layout" name="activity_backuplist" id="0x7f030001" />
     <public type="layout" name="activity_dashboard" id="0x7f030002" />
     <public type="layout" name="activity_viewlist" id="0x7f030003" />
