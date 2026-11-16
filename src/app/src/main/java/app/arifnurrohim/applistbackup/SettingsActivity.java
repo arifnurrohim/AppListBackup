@@ -348,7 +348,7 @@ public class SettingsActivity extends Activity {
         layoutParamsLp2.topMargin = dp(3.0f);
         linearLayoutVertical.addView(textViewText, layoutParamsLp2);
         linearLayoutCard.addView(linearLayoutHorizontal);
-        TextView textViewText2 = text("A native app list backup tool. Back up installed apps to a simple XML file and restore them later. Every surface follows the Catppuccin palette.", 12.5f, c("colorSubtext0"), false);
+        TextView textViewText2 = text("A native app list backup tool. Back up installed apps to a simple XML file and view them later. Every surface follows the Catppuccin palette.", 12.5f, c("colorSubtext0"), false);
         textViewText2.setLineSpacing(dp(3.0f), 1.0f);
         LinearLayout.LayoutParams layoutParamsLp3 = lp(-1, -2);
         layoutParamsLp3.topMargin = dp(14.0f);
@@ -356,6 +356,7 @@ public class SettingsActivity extends Activity {
         linearLayoutCard.addView(textViewText2, layoutParamsLp3);
         linearLayoutCard.addView(linkRow("ic_person", "Creator · arifnurrohim.my.id", "https://arifnurrohim.my.id/"));
         linearLayoutCard.addView(linkRow("ic_email", "jobs.arifnurrohim@gmail.com", "mailto:jobs.arifnurrohim@gmail.com"));
+        linearLayoutCard.addView(linkRow("ic_material_link", "GitHub repository", "https://github.com/arifnurrohim/AppListBackup"));
         linearLayoutCard.addView(innerDivider());
         linearLayoutCard.addView(linkRow("ic_palette", "Catppuccin style guide", "https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md"));
         linearLayoutCard.addView(innerDivider());

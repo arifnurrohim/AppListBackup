@@ -180,7 +180,6 @@
     <public type="layout" name="popup_appitem_layout" id="0x7f030008" />
     <public type="layout" name="popup_backuplist_layout" id="0x7f030009" />
     <public type="layout" name="popup_sort_layout" id="0x7f03000a" />
-    <public type="layout" name="activity_about" id="0x7f03000b" />
     <public type="anim" name="grow_from_bottom" id="0x7f040000" />
     <public type="anim" name="grow_from_bottomleft_to_topright" id="0x7f040001" />
     <public type="anim" name="grow_from_top" id="0x7f040002" />

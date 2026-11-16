@@ -144,11 +144,8 @@
                         android:text="@string/about"
                         style="@style/DashboardCardTitle"/>
                     <TextView
-                        android:text="@string/about_creator_line"
-                        style="@style/DashboardCardSubtitle"/>
-                    <TextView
                         android:layout_marginTop="2dp"
-                        android:text="@string/about_email_line"
+                        android:text="@string/about_description"
                         style="@style/DashboardCardSubtitle"/>
                 </LinearLayout>
                 <ImageView
@@ -164,7 +161,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:text="Catppuccin"/>
+                android:text="@string/app_id"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

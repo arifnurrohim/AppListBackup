@@ -11,6 +11,8 @@ All notable changes to this project are documented here.
 - Long-press an app to copy its package name in both screens.
 - Backup XML files now record whether each app is a system app.
 - Added a GitHub repository link to the About screen.
+- Merged the About screen into Settings and added the GitHub repository link there.
+- Updated the dashboard About card and footer text.
 
 ### Changed
 
