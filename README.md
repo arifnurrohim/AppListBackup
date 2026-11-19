@@ -55,6 +55,24 @@ The project builds with AndroidIDE (AGP 8.10.1, Gradle 9.2.1). AndroidIDE sets `
 
 ### Release signing
 
+#### Create a release keystore
+
+Run from the `src/` directory and keep `release.keystore` out of version control:
+
+```sh
+keytool -genkeypair -v \
+  -keystore release.keystore \
+  -alias mykey \
+  -keyalg RSA \
+  -keysize 2048 \
+  -validity 10000 \
+  -storepass changeit \
+  -keypass changeit \
+  -dname "CN=com.example.myapp, OU=Development, O=Your Organization, L=Your City, ST=Your State, C=ID"
+```
+
+Replace the sample passwords and distinguished name with your own values, then use the same alias and passwords in `src/env` below.
+
 `src/app/build.gradle` reads signing values from an optional `src/env` file (not committed — it is ignored by `.gitignore`). System environment variables are used as a fallback, so CI can keep using environment variables.
 
 ```sh
@@ -88,7 +106,6 @@ The release workflow expects these repository secrets:
 ```
 .
 ├── .github/workflows/     # Build and release CI
-├── base.apk               # Original APK extracted from the device
 ├── CHANGELOG.md
 ├── README.md
 └── src/                   # Gradle project
