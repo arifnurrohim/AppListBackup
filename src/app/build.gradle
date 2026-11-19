@@ -4,10 +4,53 @@ plugins {
 
 def appVersionName = project.findProperty("versionName") ?: "2.0.4"
 def appVersionCode = (project.findProperty("versionCode") ?: "20004").toInteger()
-def releaseKeystore = System.getenv("KEYSTORE")
+
+// ============================================================
+// Load signing credentials from env file in project root
+// (resolved relatively — no hard-coded full path)
+// ============================================================
+def envFile = new File(rootProject.projectDir, "env")
+def envVars = [:]
+if (envFile.exists()) {
+    envFile.eachLine { rawLine ->
+        def line = rawLine.trim()
+        if (line && !line.startsWith("#") && line.contains("=")) {
+            def idx = line.indexOf("=")
+            def key = line.substring(0, idx).trim()
+            def val = line.substring(idx + 1).trim()
+            if (key.startsWith("export ")) {
+                key = key.substring(7).trim()
+            }
+            if (val.length() >= 2 &&
+                    ((val.startsWith('"') && val.endsWith('"')) ||
+                     (val.startsWith("'") && val.endsWith("'")))) {
+                val = val.substring(1, val.length() - 1)
+            }
+            envVars[key] = val
+        }
+    }
+} else {
+    logger.warn("env file not found: ${envFile.absolutePath}")
+}
+
+// Credentials from env file, with system-env fallback
+def releaseKeystore  = envVars["KEYSTORE"]   ?: System.getenv("KEYSTORE")
+def releaseStorePass = envVars["STORE_PASS"] ?: System.getenv("STORE_PASS")
+def releaseKeyAlias  = envVars["KEY_ALIAS"]  ?: System.getenv("KEY_ALIAS") ?: "AppListBackup"
+def releaseKeyPass   = envVars["KEY_PASS"]   ?: System.getenv("KEY_PASS")  ?: releaseStorePass
+
+// Resolve keystore relatively: if not absolute, treat as relative to project root
+def resolvedKeystore = null
+if (releaseKeystore) {
+    def kf = new File(releaseKeystore)
+    resolvedKeystore = kf.isAbsolute() ? kf : new File(rootProject.projectDir, releaseKeystore)
+}
+
+// === OLD: environment-variable based signing (backup) ===
+// def releaseKeystore = System.getenv("KEYSTORE")
 
 android {
-	namespace "app.arifnurrohim.applistbackup"
+    namespace "app.arifnurrohim.applistbackup"
     compileSdkVersion 34
     buildToolsVersion "35.0.0"
 
@@ -24,11 +67,20 @@ android {
 
     signingConfigs {
         release {
-            if (releaseKeystore) {
-                storeFile file(releaseKeystore)
-                storePassword System.getenv("STORE_PASS")
-                keyAlias System.getenv("KEY_ALIAS") ?: "AppListBackup"
-                keyPassword System.getenv("KEY_PASS") ?: System.getenv("STORE_PASS")
+            // === OLD: environment-variable based signing (backup) ===
+            // if (releaseKeystore) {
+            //     storeFile file(releaseKeystore)
+            //     storePassword System.getenv("STORE_PASS")
+            //     keyAlias System.getenv("KEY_ALIAS") ?: "AppListBackup"
+            //     keyPassword System.getenv("KEY_PASS") ?: System.getenv("STORE_PASS")
+            // }
+
+            // === NEW: credentials loaded from env file ===
+            if (resolvedKeystore != null && resolvedKeystore.exists()) {
+                storeFile resolvedKeystore
+                storePassword releaseStorePass
+                keyAlias releaseKeyAlias
+                keyPassword releaseKeyPass
             }
         }
     }
@@ -37,7 +89,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            if (releaseKeystore) {
+
+            // === OLD: environment-variable based signing (backup) ===
+            // if (releaseKeystore) {
+            //     signingConfig signingConfigs.release
+            // }
+
+            // === NEW: sign release if keystore was resolved ===
+            if (resolvedKeystore != null && resolvedKeystore.exists()) {
                 signingConfig signingConfigs.release
             }
         }

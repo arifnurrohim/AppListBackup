@@ -45,7 +45,7 @@ sh gradlew assembleRelease
 Outputs:
 
 - `src/app/build/outputs/apk/debug/app-debug.apk`
-- `src/app/build/outputs/apk/release/app-release.apk` (signed when `KEYSTORE` is set)
+- `src/app/build/outputs/apk/release/app-release.apk` (signed when signing credentials are available)
 
 ### AndroidIDE
 
@@ -55,14 +55,26 @@ The project builds with AndroidIDE (AGP 8.10.1, Gradle 9.2.1). AndroidIDE sets `
 
 ### Release signing
 
-`src/app/build.gradle` reads signing values from environment variables:
+`src/app/build.gradle` reads signing values from an optional `src/env` file (not committed — it is ignored by `.gitignore`). System environment variables are used as a fallback, so CI can keep using environment variables.
+
+```sh
+# src/env
+KEYSTORE=release.keystore
+STORE_PASS=your-keystore-password
+KEY_ALIAS=AppListBackup
+KEY_PASS=your-key-password
+```
+
+`#` comments, blank lines, an optional `export ` prefix and surrounding single/double quotes are supported.
 
 | Variable | Description |
 |---|---|
-| `KEYSTORE` | Path to the keystore file |
+| `KEYSTORE` | Path to the keystore file (absolute, or relative to the `src/` project root) |
 | `STORE_PASS` | Keystore password |
 | `KEY_ALIAS` | Key alias (defaults to `AppListBackup`) |
 | `KEY_PASS` | Key password (defaults to `STORE_PASS`) |
+
+When `KEYSTORE` is set but the file cannot be found, the release build is left unsigned instead of failing.
 
 The release workflow expects these repository secrets:
 

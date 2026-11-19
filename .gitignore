@@ -19,3 +19,11 @@ build/
 
 .androidide/
 **/.androidide/
+
+.env
+# signing credentials (dotless env file used by build.gradle)
+env
+**/env
+*.env
+!*.env.example
+*.bak
