@@ -2,8 +2,8 @@ plugins {
     id 'com.android.application'
 }
 
-def appVersionName = project.findProperty("versionName") ?: "2.0.4"
-def appVersionCode = (project.findProperty("versionCode") ?: "20004").toInteger()
+def appVersionName = project.findProperty("versionName") ?: "2.0.5"
+def appVersionCode = (project.findProperty("versionCode") ?: "20005").toInteger()
 
 // ============================================================
 // Load signing credentials from env file in project root

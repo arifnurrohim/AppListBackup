@@ -2,6 +2,26 @@
 
 All notable changes to this project are documented here.
 
+## [2.0.5] - 2026-11-20
+
+### Fixed
+
+- Checkbox state now updates immediately when tapping an app in the backup screen. Previously the check mark only appeared after scrolling or filtering.
+- Checked apps are restored correctly after searching or toggling the system-apps filter.
+
+### Changed
+
+- Release signing credentials are loaded from an optional `src/env` file, with environment variables as a fallback.
+- Documented how to create a release keystore and configure signing.
+
+### Removed
+
+- Removed `base.apk` from the repository.
+
+### Build
+
+- Bumped version to 2.0.5 (versionCode 20005).
+
 ## [2.0.4] - 2026-11-17
 
 ### Added

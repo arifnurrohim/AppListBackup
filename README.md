@@ -19,7 +19,7 @@ A lightweight Android app that creates a backup list of the apps installed on yo
 | | |
 |---|---|
 | Package | `app.arifnurrohim.applistbackup` |
-| Version | 2.0.4 (versionCode 20004) |
+| Version | 2.0.5 (versionCode 20005) |
 | Min SDK | 21 |
 | Target SDK | 34 |
 | Main activity | `app.arifnurrohim.applistbackup.DashboardActivity` |

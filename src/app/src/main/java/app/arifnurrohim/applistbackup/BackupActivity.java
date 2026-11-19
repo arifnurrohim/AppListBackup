@@ -158,8 +158,8 @@ public class BackupActivity extends ListActivity {
         if (this._adapter == null) {
             return;
         }
-        this._adapter.notifyDataSetChanged();
         restoreCheckedState();
+        this._adapter.notifyDataSetChanged();
     }
 
     private void restoreCheckedState() {
@@ -194,6 +194,10 @@ public class BackupActivity extends ListActivity {
             this._checkedPackages.add(item.getPackageName());
         } else {
             this._checkedPackages.remove(item.getPackageName());
+        }
+        CheckBox chkBox = (CheckBox) v.findViewById(R.id.chkItem);
+        if (chkBox != null) {
+            chkBox.setChecked(l.isItemChecked(position));
         }
     }
 
